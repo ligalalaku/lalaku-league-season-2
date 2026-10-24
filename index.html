@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lalaku League Season 2</title>
+<style>
+:root{--navy:#10233f;--blue:#1769aa;--gold:#f3c969;--bg:#f3f6fb;--ink:#182437;--muted:#68768a;--line:#dce4ef}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(120deg,#0b1c34,#164d83);color:white;padding:26px 16px 30px;border-bottom:4px solid var(--gold)}
+.wrap{max-width:1100px;margin:auto;padding:0 16px}.brand{display:flex;align-items:center;gap:14px}.ball{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#13385f;font-size:27px;border:3px solid var(--gold)}
+h1{font-size:clamp(24px,5vw,36px);margin:0}header p{margin:7px 0 0;color:#d8e7f7}
+.status{display:inline-flex;align-items:center;gap:7px;border:1px solid #ffffff55;border-radius:999px;padding:7px 11px;font-size:12px;margin-top:18px}
+main{padding:22px 0 40px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.card,.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 4px 16px #142a4510}
+.metric{font-size:27px;font-weight:800;color:var(--navy)}.label{font-size:12px;color:var(--muted);margin-top:4px}
+.panel{margin-top:14px}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:13px}
+h2{font-size:18px;margin:0;color:var(--navy)}.hint{font-size:12px;color:var(--muted);line-height:1.5}
+button,.btn{border:0;border-radius:10px;padding:10px 13px;font-weight:700;cursor:pointer;background:var(--blue);color:white;font-size:13px}
+button.secondary{background:#eaf1f9;color:#16436e;border:1px solid #d4e1ef}button.danger{background:#a93434}button.gold{background:var(--gold);color:#33250b}
+button:disabled{opacity:.45;cursor:not-allowed}.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:11px 9px;border-bottom:1px solid #e9eef5;text-align:center;white-space:nowrap}th{background:#f4f7fb;color:#53657c;font-size:11px;text-transform:uppercase;letter-spacing:.04em}td:nth-child(2),th:nth-child(2){text-align:left}
+.rank{display:inline-grid;place-items:center;width:27px;height:27px;border-radius:8px;background:#edf2f8;font-weight:800}.rank.top{background:#fff0c2;color:#795100}
+.tablewrap{overflow-x:auto}.pill{border-radius:999px;padding:4px 8px;background:#edf7f0;color:#237243;font-size:11px;font-weight:700}
+input,select{border:1px solid #cad6e4;border-radius:9px;padding:10px;font:inherit;min-width:0;width:100%;background:white;color:var(--ink)}
+label{font-size:12px;font-weight:700;color:#53657c;display:block;margin-bottom:5px}.formgrid{display:grid;grid-template-columns:1fr 1fr 100px 100px auto;gap:10px;align-items:end}
+.adminbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.hidden{display:none!important}
+.matches{display:grid;gap:8px}.matchrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--line);border-radius:11px}.score{font-weight:800;color:var(--navy);white-space:nowrap}.matchmeta{font-size:11px;color:var(--muted);margin-top:3px}
+.notice{padding:12px 14px;border-radius:10px;background:#fff8e5;border:1px solid #f0dda7;color:#705314;font-size:12px;line-height:1.55}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#132b47;color:white;border-radius:10px;padding:12px 16px;display:none;z-index:5;max-width:90vw}
+#setupWarning{background:#fff0f0;border:1px solid #efc4c4;color:#8b2626;padding:14px;border-radius:12px;line-height:1.55}
+@media(max-width:700px){.cards{grid-template-columns:repeat(3,1fr);gap:7px}.card{padding:11px}.metric{font-size:22px}.label{font-size:10px}.formgrid{grid-template-columns:1fr 1fr}.formgrid .full{grid-column:1/-1}.formgrid button{grid-column:1/-1}th,td{padding:9px 7px}}
+@media print{
+ body{background:white;color:#111}.no-print,header .status,footer,#adminPanel,#setupWarning{display:none!important}
+ header{background:white!important;color:#111;padding:0 0 12px;border-bottom:2px solid #111}
+ header p{color:#333}.ball{border-color:#111;background:white;color:#111}
+ .wrap{max-width:none;padding:0}.panel,.card{box-shadow:none;border:1px solid #bbb;border-radius:0;break-inside:avoid}
+ main{padding:10px 0}.cards{margin-bottom:8px}.metric{color:#111}th{background:#eee!important;color:#111}
+ #pdfStamp{display:flex!important}.stamparea{display:flex;justify-content:flex-end;margin:18px 8px 0}
+ #pdfTitle{display:block!important;text-align:center;font-size:18px;font-weight:900;letter-spacing:1px;margin:10px 0 4px}
+ #pdfMeta{display:block!important;text-align:center;font-size:10px;color:#333;margin-bottom:12px}
+}
+#pdfTitle,#pdfMeta,#pdfStamp{display:none}
+.stamparea{display:none}
+.stamp{width:132px;height:132px;border:4px double #174f86;border-radius:50%;color:#174f86;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-9deg);font-weight:900;line-height:1.2;outline:1px solid #174f86;outline-offset:-10px}
+.stamp .small{font-size:8px;letter-spacing:1px}.stamp .main{font-size:14px;margin:5px 0}.stamp .ballmark{font-size:22px}
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap">
+  <div class="brand"><div class="ball">⚽</div><div><h1>Lalaku League Season 2</h1><p>eFootball • Klasemen resmi sementara turnamen</p></div></div>
+  <div class="status" id="connectionStatus">● Menyiapkan koneksi…</div>
+ </div>
+</header>
+<main class="wrap">
+ <div id="setupWarning" class="no-print">
+  <strong>Website belum tersambung ke database.</strong><br>
+  File ini perlu dikonfigurasi dengan Firebase agar semua peserta melihat data yang sama. Ikuti file <b>PANDUAN_PUBLIKASI.md</b> yang disertakan. Tampilan lokal tidak berarti data sudah tersimpan bersama.
+ </div>
+ <div id="pdfTitle">BUKTI KLASEMEN SEMENTARA</div>
+ <div id="pdfMeta"></div>
+ <div class="cards">
+  <div class="card"><div class="metric" id="playerCount">12</div><div class="label">Pemain</div></div>
+  <div class="card"><div class="metric" id="matchCount">0</div><div class="label">Pertandingan</div></div>
+  <div class="card"><div class="metric" id="leaderName" style="font-size:19px">—</div><div class="label">Peringkat 1</div></div>
+ </div>
+ <section class="panel">
+  <div class="panelhead"><div><h2>Klasemen Sementara</h2><div class="hint">Urutan: poin → selisih gol → gol memasukkan → menang → nama pemain.</div></div>
+   <div class="toolbar no-print"><button class="secondary" id="refreshBtn">Muat ulang</button><button class="gold" id="pdfBtn">Cetak Bukti / PDF</button></div>
+  </div>
+  <div class="tablewrap"><table id="standings"><thead><tr><th>#</th><th>Pemain</th><th>MAIN</th><th>M</th><th>S</th><th>K</th><th>GM</th><th>GK</th><th>SG</th><th>POIN</th></tr></thead><tbody></tbody></table></div>
+  <div class="stamparea" id="pdfStamp"><div class="stamp"><div class="small">LALAKU LEAGUE</div><div class="ballmark">⚽</div><div class="main">KLASEMEN<br>SEMENTARA</div><div class="small">SEASON 2 • DIGITAL</div></div></div>
+ </section>
+ <section class="panel no-print" id="adminPanel">
+  <div class="panelhead"><div><h2>Panel Admin</h2><div class="hint">Hanya akun admin yang diizinkan oleh Firebase dapat menyimpan perubahan.</div></div>
+   <div class="toolbar"><button id="loginBtn">Masuk Admin</button><button id="logoutBtn" class="secondary hidden">Keluar</button></div>
+  </div>
+  <div id="adminStatus" class="hint">Belum masuk sebagai admin.</div>
+  <div id="adminControls" class="hidden">
+   <div class="notice" style="margin:12px 0">Simpan skor setelah memilih dua pemain. Poin otomatis: menang 3, seri 1, kalah 0. Pastikan aturan keamanan database Firebase sudah dipasang.</div>
+   <h2 style="margin:14px 0 10px">Input Hasil Pertandingan</h2>
+   <div class="formgrid">
+    <div><label for="homePlayer">Pemain 1</label><select id="homePlayer"></select></div>
+    <div><label for="awayPlayer">Pemain 2</label><select id="awayPlayer"></select></div>
+    <div><label for="homeGoals">Gol P1</label><input id="homeGoals" type="number" min="0" max="99" value="0"></div>
+    <div><label for="awayGoals">Gol P2</label><input id="awayGoals" type="number" min="0" max="99" value="0"></div>
+    <button id="saveMatchBtn">Simpan skor</button>
+   </div>
+   <h2 style="margin:22px 0 10px">Nama Pemain</h2>
+   <div class="hint" style="margin-bottom:10px">Ubah nama lalu simpan. Gunakan 12 slot pemain yang sudah disediakan.</div>
+   <div id="playerEditor" class="formgrid" style="grid-template-columns:1fr 1fr 1fr 1fr"></div>
+   <div class="toolbar" style="margin-top:10px"><button id="savePlayersBtn">Simpan nama pemain</button></div>
+   <h2 style="margin:22px 0 10px">Riwayat Pertandingan</h2>
+   <div id="matchHistory" class="matches"></div>
+  </div>
+ </section>
+ <div class="notice no-print" style="margin-top:14px">Klasemen ini adalah bukti sementara berdasarkan data yang tersimpan. Stempel digital menandai dokumen turnamen, bukan pengesahan pihak ketiga.</div>
+</main>
+<footer>Lalaku League Season 2 • eFootball • Klasemen diperbarui dari database bersama saat Firebase dikonfigurasi.</footer>
+<div id="toast"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+/*
+ SETUP: isi firebaseConfig dari Firebase Console dan ADMIN_EMAIL.
+ Jangan mengandalkan email di HTML sebagai keamanan; aturan database Firebase juga harus dipasang.
+*/
+const firebaseConfig = {
+  apiKey: "ISI_API_KEY",
+  authDomain: "ISI_PROJECT_ID.firebaseapp.com",
+  databaseURL: "https://ISI_PROJECT_ID-default-rtdb.firebaseio.com",
+  projectId: "ISI_PROJECT_ID",
+  appId: "ISI_APP_ID"
+};
+const ADMIN_EMAIL = "admin@example.com";
+const DEFAULT_PLAYERS = Array.from({length:12},(_,i)=>({id:String(i+1),name:"Pemain "+String(i+1).padStart(2,"0")}));
+let players = DEFAULT_PLAYERS.map(p=>({...p})), matches = [], db=null, auth=null, currentUser=null, connected=false;
+const $=id=>document.getElementById(id);
+const isConfigured=()=>firebaseConfig.apiKey!=="ISI_API_KEY" && firebaseConfig.projectId!=="ISI_PROJECT_ID" && ADMIN_EMAIL!=="admin@example.com";
+function toast(msg){const t=$("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",3000)}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function calc(){
+ const stats=players.map(p=>({...p,played:0,wins:0,draws:0,losses:0,gf:0,ga:0,points:0}));
+ const map=new Map(stats.map(s=>[s.id,s]));
+ matches.forEach(m=>{const a=map.get(m.homeId),b=map.get(m.awayId);if(!a||!b)return;
+  a.played++;b.played++;a.gf+=+m.homeGoals;a.ga+=+m.awayGoals;b.gf+=+m.awayGoals;b.ga+=+m.homeGoals;
+  if(+m.homeGoals>+m.awayGoals){a.wins++;b.losses++;a.points+=3}
+  else if(+m.homeGoals<+m.awayGoals){b.wins++;a.losses++;b.points+=3}
+  else{a.draws++;b.draws++;a.points++;b.points++}
+ });
+ stats.forEach(s=>{s.gd=s.gf-s.ga});
+ return stats.sort((a,b)=>b.points-a.points||b.gd-a.gd||b.gf-a.gf||b.wins-a.wins||a.name.localeCompare(b.name,"id"));
+}
+function render(){
+ const s=calc();$("playerCount").textContent=players.length;$("matchCount").textContent=matches.length;$("leaderName").textContent=s[0]?.name||"—";
+ $("standings").querySelector("tbody").innerHTML=s.map((p,i)=>`<tr><td><span class="rank ${i<3?"top":""}">${i+1}</span></td><td><strong>${esc(p.name)}</strong></td><td>${p.played}</td><td>${p.wins}</td><td>${p.draws}</td><td>${p.losses}</td><td>${p.gf}</td><td>${p.ga}</td><td>${p.gd>0?"+":""}${p.gd}</td><td><strong>${p.points}</strong></td></tr>`).join("");
+ $("homePlayer").innerHTML=players.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("");
+ $("awayPlayer").innerHTML=players.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("");
+ $("playerEditor").innerHTML=players.map((p,i)=>`<div><label>Pemain ${i+1}</label><input data-player-id="${esc(p.id)}" value="${esc(p.name)}" maxlength="35"></div>`).join("");
+ $("matchHistory").innerHTML=matches.length?matches.slice().reverse().map(m=>{const a=players.find(p=>p.id===m.homeId)?.name||"Pemain?";const b=players.find(p=>p.id===m.awayId)?.name||"Pemain?";return `<div class="matchrow"><div><strong>${esc(a)} vs ${esc(b)}</strong><div class="matchmeta">${esc(m.date||"")}</div></div><div class="toolbar"><span class="score">${m.homeGoals} - ${m.awayGoals}</span><button class="danger" data-delete="${esc(m.id)}">Hapus</button></div></div>`}).join(""):'<div class="hint">Belum ada pertandingan.</div>';
+ document.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>deleteMatch(b.dataset.delete));
+}
+function setStatus(msg){$("connectionStatus").textContent="● "+msg}
+function setAdminUI(){
+ const allowed=!!currentUser && currentUser.email===ADMIN_EMAIL;
+ $("loginBtn").classList.toggle("hidden",!!currentUser);$("logoutBtn").classList.toggle("hidden",!currentUser);
+ $("adminControls").classList.toggle("hidden",!allowed);
+ $("adminStatus").textContent=allowed?"Masuk sebagai admin: "+currentUser.email:(currentUser?"Akun "+currentUser.email+" tidak memiliki akses admin.":"Belum masuk sebagai admin.");
+}
+function requireAdmin(){if(!currentUser||currentUser.email!==ADMIN_EMAIL){toast("Aksi ini hanya untuk admin.");return false}return true}
+function initFirebase(){
+ if(!isConfigured()){setStatus("mode pratinjau — belum tersambung");$("setupWarning").classList.remove("hidden");render();return}
+ try{
+  firebase.initializeApp(firebaseConfig);auth=firebase.auth();db=firebase.database();
+  auth.onAuthStateChanged(user=>{currentUser=user;setAdminUI()});
+  db.ref(".info/connected").on("value",s=>{connected=!!s.val();setStatus(connected?"tersambung • live":"menghubungkan…")});
+  db.ref("lalakuLeagueSeason2/players").on("value",snap=>{const val=snap.val();if(val){players=DEFAULT_PLAYERS.map(p=>({...p,name:val[p.id]?.name||p.name}))}render()});
+  db.ref("lalakuLeagueSeason2/matches").on("value",snap=>{const val=snap.val()||{};matches=Object.entries(val).map(([id,m])=>({...m,id})).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));render()});
+  $("setupWarning").classList.add("hidden");
+ }catch(e){setStatus("gagal terhubung");$("setupWarning").classList.remove("hidden");toast(e.message)}
+}
+$("loginBtn").onclick=async()=>{if(!auth){toast("Konfigurasi Firebase belum lengkap.");return}try{await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())}catch(e){toast("Login gagal: "+e.message)}};
+$("logoutBtn").onclick=()=>auth&&auth.signOut();
+$("saveMatchBtn").onclick=async()=>{
+ if(!requireAdmin())return;if(!db){toast("Firebase belum dikonfigurasi.");return}
+ const homeId=$("homePlayer").value,awayId=$("awayPlayer").value,h=Number($("homeGoals").value),a=Number($("awayGoals").value);
+ if(homeId===awayId){toast("Pilih dua pemain yang berbeda.");return}
+ if(!Number.isInteger(h)||!Number.isInteger(a)||h<0||a<0||h>99||a>99){toast("Skor harus bilangan bulat 0–99.");return}
+ try{await db.ref("lalakuLeagueSeason2/matches").push({homeId,awayId,homeGoals:h,awayGoals:a,date:new Date().toLocaleString("id-ID"),createdAt:Date.now(),createdBy:currentUser.email});$("homeGoals").value=0;$("awayGoals").value=0;toast("Skor tersimpan dan klasemen diperbarui.")}catch(e){toast("Gagal menyimpan: "+e.message)}
+};
+$("savePlayersBtn").onclick=async()=>{
+ if(!requireAdmin())return;if(!db){toast("Firebase belum dikonfigurasi.");return}
+ const obj={};document.querySelectorAll("[data-player-id]").forEach(i=>obj[i.dataset.playerId]={name:i.value.trim()||("Pemain "+i.dataset.playerId)});
+ try{await db.ref("lalakuLeagueSeason2/players").update(obj);toast("Nama pemain tersimpan.")}catch(e){toast("Gagal menyimpan: "+e.message)}
+};
+async function deleteMatch(id){if(!requireAdmin()||!db)return;if(!confirm("Hapus hasil pertandingan ini?"))return;try{await db.ref("lalakuLeagueSeason2/matches/"+id).remove();toast("Hasil pertandingan dihapus.")}catch(e){toast("Gagal menghapus: "+e.message)}}
+$("refreshBtn").onclick=()=>{if(db){db.ref("lalakuLeagueSeason2/players").once("value");db.ref("lalakuLeagueSeason2/matches").once("value")}render();toast("Klasemen diperbarui.")};
+$("pdfBtn").onclick=()=>{
+ const now=new Date(),date=now.toLocaleString("id-ID",{dateStyle:"long",timeStyle:"short"});
+ $("pdfMeta").textContent=`Lalaku League Season 2 • Dicetak ${date} • ${matches.length} pertandingan tercatat • Bukti sementara`;
+ window.print();
+};
+initFirebase();render();
+</script>
+</body></html>
