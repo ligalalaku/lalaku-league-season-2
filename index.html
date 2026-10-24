@@ -55,8 +55,8 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
 </header>
 <main class="wrap">
  <div id="setupWarning" class="no-print">
-  <strong>Website belum tersambung ke database.</strong><br>
-  File ini perlu dikonfigurasi dengan Firebase agar semua peserta melihat data yang sama. Ikuti file <b>PANDUAN_PUBLIKASI.md</b> yang disertakan. Tampilan lokal tidak berarti data sudah tersimpan bersama.
+  <strong>Belum berhasil terhubung ke database.</strong><br>
+  Periksa koneksi internet, konfigurasi Firebase, dan domain yang diizinkan pada Firebase Authentication. Data klasemen akan tampil bersama setelah koneksi berhasil.
  </div>
  <div id="pdfTitle">BUKTI KLASEMEN SEMENTARA</div>
  <div id="pdfMeta"></div>
@@ -108,14 +108,30 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
  Jangan mengandalkan email di HTML sebagai keamanan; aturan database Firebase juga harus dipasang.
 */
 const firebaseConfig = {
-  apiKey: "ISI_API_KEY",
-  authDomain: "ISI_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://ISI_PROJECT_ID-default-rtdb.firebaseio.com",
-  projectId: "ISI_PROJECT_ID",
-  appId: "ISI_APP_ID"
+  apiKey: "AIzaSyANW5A0ECxSI_O_hVqUDq4ceAkJOFBg5s",
+  authDomain: "efootball-lalaku-league.firebaseapp.com",
+  databaseURL: "https://efootball-lalaku-league-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "efootball-lalaku-league",
+  storageBucket: "efootball-lalaku-league.firebasestorage.app",
+  messagingSenderId: "541887084767",
+  appId: "1:541887084767:web:3f01c1a0a1ddfa8b8516a",
+  measurementId: "G-GWJQP40541"
 };
-const ADMIN_EMAIL = "admin@example.com";
-const DEFAULT_PLAYERS = Array.from({length:12},(_,i)=>({id:String(i+1),name:"Pemain "+String(i+1).padStart(2,"0")}));
+const ADMIN_EMAIL = "yarmanpolsuspas@gmail.com";
+const DEFAULT_PLAYERS = [
+  {id:"1",name:"Bang YAR"},
+  {id:"2",name:"Ketua Sekte Gn. Santi"},
+  {id:"3",name:"D. A. Mrp"},
+  {id:"4",name:"Yudha"},
+  {id:"5",name:"Tito"},
+  {id:"6",name:"Waone"},
+  {id:"7",name:"Radiansyah"},
+  {id:"8",name:"Zebua"},
+  {id:"9",name:"Manik"},
+  {id:"10",name:"Okri"},
+  {id:"11",name:"Nino"},
+  {id:"12",name:"Fiqri"}
+];
 let players = DEFAULT_PLAYERS.map(p=>({...p})), matches = [], db=null, auth=null, currentUser=null, connected=false;
 const $=id=>document.getElementById(id);
 const isConfigured=()=>firebaseConfig.apiKey!=="ISI_API_KEY" && firebaseConfig.projectId!=="ISI_PROJECT_ID" && ADMIN_EMAIL!=="admin@example.com";
