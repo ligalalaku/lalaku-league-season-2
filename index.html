@@ -55,6 +55,18 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   box-sizing: border-box;
   flex-shrink: 0;
 }
+.creator-credit {
+  text-align: center;
+  padding: 10px 12px 22px;
+  color: #68768a;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+}
+
+.creator-credit strong {
+  color: #b8860b;
+  font-weight: 800;
+} 
 </style>
 </head>
 <body>
@@ -211,4 +223,7 @@ $("pdfBtn").onclick=()=>{
 };
 initFirebase();render();
 </script>
+ <div class="creator-credit">
+  Dibuat oleh <strong>@BangYAR</strong>
+ </div>
 </body></html>
