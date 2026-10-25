@@ -176,12 +176,13 @@ header > * {
 /* Status koneksi ringkas */
 
 
+
 header .status {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   padding: 4px 9px;
-  margin-top: 4px;
+  margin-top: 14px;
   font-size: 11px;
   line-height: 1.2;
   border-radius: 999px;
@@ -189,27 +190,43 @@ header .status {
   color: #83e6b5;
   border: 1px solid #286b54;
   width: fit-content;
-} 
+  align-self: flex-start;
+}
 header .wrap {
   padding-top: 10px;
   padding-bottom: 5px;
 }
+ 
+header .wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+header .brand {
+  width: 100%;
+}
+
+header .status {
+  margin-top: 14px;
+}
+ 
 </style>
 </head>
 <body>
 
 <header>
-  <div class="wrap">
-    <div class="brand">
-      <img src="lalaku-logo.png" alt="Lalaku League" class="ball">
-      <div class="brand-text">
-        <p class="brand-subtitle">e_Football • Klasemen Resmi</p>
-        <h1>LALAKU SEASON 2</h1>
-        <p class="brand-tagline">COMPETE • CONQUER • BECOME LEGEND</p>
-      </div>
+<div class="wrap">
+  <div class="brand">
+    <img src="lalaku-logo.png" alt="Lalaku League" class="ball">
+    <div class="brand-text">
+      <p class="brand-subtitle">e_Football • Klasemen Resmi</p>
+      <h1>LALAKU SEASON 2</h1>
+      <p class="brand-tagline">COMPETE • CONQUER • BECOME LEGEND</p>
     </div>
-    <div class="status" id="connectionStatus">● Menyiapkan koneksi...</div>
   </div>
+  <div class="status" id="connectionStatus">● Menyiapkan koneksi...</div>
+</div>
 </header>
 <main class="wrap">
  <div id="setupWarning" class="no-print">
