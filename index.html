@@ -74,6 +74,56 @@ header {
   z-index: 1000;
 }
  
+/* Animasi emas di dalam header saja */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(circle, #f3c969 1px, transparent 2px),
+    radial-gradient(circle, #ffe7a0 1px, transparent 2px),
+    linear-gradient(105deg, transparent 35%, #f3c96918 48%, transparent 62%);
+  background-size: 85px 75px, 125px 110px, 220% 100%;
+  background-position: 0 0, 35px 45px, -150% 0;
+  animation: lalakuGoldFloat 18s linear infinite,
+             lalakuGoldWave 12s ease-in-out infinite;
+}
+
+@keyframes lalakuGoldFloat {
+  from { background-position: 0 0, 35px 45px, -150% 0; }
+  to { background-position: 85px -150px, -90px -110px, 150% 0; }
+}
+
+@keyframes lalakuGoldWave {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.5; }
+}
+
+
+header > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  header::before {
+    animation: none;
+  }
+}
+
+ 
+ 
 </style>
 </head>
 <body>
